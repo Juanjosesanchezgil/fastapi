@@ -15,15 +15,18 @@ users_list = [User(id = 1, name = "Brais", surname = "Moure", url = "https://mou
          User(id = 2, name = "Moure", surname = "Dev", url = "https://mouredev.com", age = 35),
          User(id = 3, name = "Juanj", surname = "Sanchez", url = "https://juanjsanchez.dev", age = 39)]
 
-@app.get("/usersclass/")
-async def usersclass():
-    return users_list
 
-@app.get("/users")
-async def users():
+
+@app.get("/usersjson")
+async def usersjson():
     return [{"name" : "Brais", "surname" : "moure", "url" : "https://moure.dev", "age" : 35},
             {"name" : "Moure", "surname" : "Dev", "url" : "https://mouredev.com", "age" : 35},
             {"name" : "Juanj", "surname" : "Sanchez", "url" : "https://juanjsanchez.dev", "age" : 39}]
+
+
+@app.get("/users/")
+async def users():
+    return users_list
 
 # Path    
 @app.get("/user/{id}")
@@ -47,9 +50,32 @@ async def user(user : User):
 
 
 @app.put("/user/")
-async def user():
-    return 
+async def user(user : User):
+    
+    found = False
+    
+    for index, user_saved in enumerate(users_list):
+        if user_saved.id == user.id:
+            users_list[index] = user
+            found = True
+            
+    if not found:
+        return {"error" : "No se ha actualizado el usuario"}
+    else:
+        return user 
 
+@app.delete("/user/{id}")
+async def user(id : int):
+
+    found = False
+    
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == id:
+            del users_list[index]
+            found = True
+            
+    if not found:
+        return {"error" : "No se ha eliminado el usuario"}
 
 
 def search_user(id : int):
