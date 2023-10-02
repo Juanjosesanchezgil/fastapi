@@ -17,7 +17,7 @@ users_list = [User(id = 1, name = "Brais", surname = "Moure", url = "https://mou
 
 
 
-@router.get("/usersjson")
+@router.get("/usersjson/")
 async def usersjson():
     return [{"name" : "Brais", "surname" : "moure", "url" : "https://moure.dev", "age" : 35},
             {"name" : "Moure", "surname" : "Dev", "url" : "https://mouredev.com", "age" : 35},
